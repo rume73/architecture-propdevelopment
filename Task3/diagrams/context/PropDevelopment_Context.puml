@@ -1,0 +1,26 @@
+@startuml
+title SmartHome Context Diagram - PropDevelopment
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(owner, "Собственник", "Владелец квартиры, использует мобильное приложение")
+Person(admin, "Администратор ЖКХ", "Управляет доступом resident'ов и устройствами")
+
+System(SmartHome, "SmartHome System", "Система управления умным домом: домофон и шлагбаум")
+
+System_Ext(provider, "Поставщик услуг «Умный дом»", "Внешний партнёр: API для биометрии, домофона и шлагбаума")
+System_Ext(mobile, "Мобильное приложение собственника", "Клиент для управления сервисами ЖКХ и Умным домом")
+System_Ext(crm, "CRM собственников", "Источник данных о жильцах и правах доступа")
+
+Rel(owner, mobile, "Использует")
+Rel(mobile, SmartHome, "Отправляет команды (открыть дверь, шлагбаум)")
+
+Rel(admin, SmartHome, "Администрирует права доступа")
+Rel(SmartHome, crm, "Получает данные о собственниках")
+
+Rel(SmartHome, provider, "Вызывает API (распознавание лиц, номера авто)")
+Rel(provider, SmartHome, "Возвращает статус (разрешено/запрещено)")
+
+@enduml
